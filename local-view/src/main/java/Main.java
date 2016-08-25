@@ -20,10 +20,10 @@ public class Main {
 
 
 //    LogUtils.log("trying to create proxy for local-view creation");
-        IJSpace space = new UrlSpaceConfigurer("jini://*/*/space").create();
+//        IJSpace space = new UrlSpaceConfigurer("jini://*/*/space").create();
 //    LogUtils.log("space proxy for local-view was created");
 //    LogUtils.log("trying to create local-view");
-        new LocalViewSpaceConfigurer(space).addViewQuery(new SQLQuery<Data>(Data.class, "processed = false")).create();
+//        new LocalViewSpaceConfigurer(space).addViewQuery(new SQLQuery<Data>(Data.class, "processed = false")).create();
 //    Logger.getLogger(com.gigaspaces.logger.Constants.LOGGER_LOCAL_VIEW).addHandler(handler);
 //    Assert.assertTrue("local view should get ping ConnectException", sem.tryAcquire(2, TimeUnit.MINUTES));
     }
