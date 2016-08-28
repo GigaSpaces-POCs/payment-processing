@@ -17,6 +17,7 @@ import org.openspaces.core.space.SpaceProxyConfigurer;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
+import java.util.LinkedList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -110,31 +111,38 @@ import java.util.concurrent.atomic.AtomicInteger;
     }
 
 //    public static void Main(String[] args){
-public void MainFeed(){
+public void MainFeed(int objectsPerSecond, int totalObjectsToWriteTogrid){
 
     System.out.println("Connecting to data grid");
         SpaceProxyConfigurer configurer = new SpaceProxyConfigurer("myGrid");
 //        configurer.lookupGroups("xap-11.0.0");
         final GigaSpace gigaSpace = new GigaSpaceConfigurer(configurer).create();
 
-        System.out.println("Write (store) a few of account entries in the data grid:");
+        System.out.println("Write (store) a few of data entries in the data grid:");
         Random rand = new Random(50);
         //rand.nextInt()
-        for (int i = 0; i < 50; i++) {
-//            Data account = new Data(i, UUID.randomUUID().toString(), rand.nextInt());
-            Data account = new Data((long)rand.nextInt(), UUID.randomUUID().toString());
-//            Data account = new Data((long)4, "test");
-
-
-            gigaSpace.write(account);
-//    		System.out.println("Result: " + person);
+        Data account;
+        LinkedList objectsList = new LinkedList<Data>();
+        for (int i = 0; i < totalObjectsToWriteTogrid; i++) {
+            account = new Data((long) rand.nextInt(), UUID.randomUUID().toString());
+            objectsList.add(account);
+            if (i%objectsPerSecond==0) {
+                gigaSpace.writeMultiple(objectsList.toArray());
+                objectsList.clear();
+                try {
+                    System.out.println("Sleeping for one sec");
+                    Thread.sleep(1000l);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
-            Data account = new Data((long)4, "tal");
+            account = new Data((long)4, "tal");
             gigaSpace.write(account);
 
-        System.out.println("For POC purposes we add the cards to the account using changeset");
-        rand = new Random(3);
+//        System.out.println("For POC purposes we add the cards to the account using changeset");
+//        rand = new Random(3);
 //        for (int i = 0; i < 50000; i++) {
 //            IdQuery<Data> idQuery = new IdQuery<Data>(Data.class, i);
 //            gigaSpace.change(idQuery, new ChangeSet().addToCollection("cardIds", getCards(i)));
