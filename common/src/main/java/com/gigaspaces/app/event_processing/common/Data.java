@@ -3,8 +3,8 @@ package com.gigaspaces.app.event_processing.common;
 import com.gigaspaces.annotation.pojo.SpaceClass;
 import com.gigaspaces.annotation.pojo.SpaceId;
 import com.gigaspaces.annotation.pojo.SpaceRouting;
-
-
+import com.gigaspaces.metadata.index.SpaceIndexType;
+import com.gigaspaces.annotation.pojo.SpaceIndex;
 /**
  * A simple object used to work with the Space. Important properties include the id of the object, a
  * type (used to perform routing when working with partitioned space), the raw data and processed
@@ -22,6 +22,9 @@ public class Data {
     private String data;
 
     private Boolean processed;
+
+    private EStatus status;
+
 
     /**
      * Constructs a new Data object.
@@ -102,6 +105,7 @@ public class Data {
     /**
      * A boolean flag indicating if the data object was processed or not.
      */
+    @SpaceIndex(type=SpaceIndexType.BASIC)
     public Boolean isProcessed() {
         return processed;
     }
@@ -111,6 +115,15 @@ public class Data {
      */
     public void setProcessed(Boolean processed) {
         this.processed = processed;
+    }
+
+    @SpaceIndex(type=SpaceIndexType.BASIC)
+    public EStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EStatus inStatus) {
+        this.status = inStatus;
     }
 
     public String toString() {
