@@ -40,6 +40,7 @@ public class Data {
         this.type = type;
         this.rawData = rawData;
         this.processed = false;
+        this.status = EStatus.One;
     }
 
     /**
