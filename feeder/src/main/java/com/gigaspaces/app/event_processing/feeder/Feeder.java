@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.UUID;
 import java.util.Random;
-
+import java.util.concurrent.atomic.AtomicInteger;
 /**
  * A feeder bean starts a scheduled task that writes a new Data objects to the space (in an
  * unprocessed state).
@@ -42,16 +42,14 @@ import java.util.Random;
 
 
         Logger log = Logger.getLogger(this.getClass().getName());
-
     private ScheduledExecutorService executorService;
-
     private ScheduledFuture<?> sf;
-
     private long numberOfTypes = 10;
-
     private long defaultDelay = 2000;
-
     private FeederTask feederTask;
+
+    static AtomicInteger missTargetTPcounter = new AtomicInteger(0);
+    static AtomicInteger counter = new AtomicInteger(0);
 
     @GigaSpaceContext
     private GigaSpace gigaSpace;
@@ -116,7 +114,7 @@ public void MainFeed(){
 
     System.out.println("Connecting to data grid");
         SpaceProxyConfigurer configurer = new SpaceProxyConfigurer("myGrid");
-        configurer.lookupGroups("xap-11.0.0");
+//        configurer.lookupGroups("xap-11.0.0");
         final GigaSpace gigaSpace = new GigaSpaceConfigurer(configurer).create();
 
         System.out.println("Write (store) a few of account entries in the data grid:");

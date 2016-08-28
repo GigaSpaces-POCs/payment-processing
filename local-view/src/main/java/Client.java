@@ -7,18 +7,24 @@ import org.openspaces.core.space.SpaceProxyConfigurer;
 import org.openspaces.core.space.UrlSpaceConfigurer;
 import org.openspaces.core.space.cache.LocalViewSpaceConfigurer;
 
+import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by tal on 8/24/16.
  */
 public class Client {
 
+    static AtomicInteger counter = new AtomicInteger(0);
+
+    public static final String LOOKUPGROUPS = "XAP_LOOKUP_GROUPS";
+
     public void createView() {
+
 
 
 //    LogUtils.log("trying to create proxy for local-view creation");
 
         UrlSpaceConfigurer space = new UrlSpaceConfigurer("jini://*/*/myGrid").lookupGroups("xap-11.0.0");
-        GigaSpace gs = new GigaSpaceConfigurer(space).create();
+        GigaSpace gs = new GigaSpaceConfigurer(space).gigaSpace();//.create();
 //    LogUtils.log("space proxy for local-view was created");
 //    LogUtils.log("trying to create local-view");
 //        IJSpace localJView = new LocalViewSpaceConfigurer(space).addViewQuery(new SQLQuery<Data>(Data.class, "processed = false")).create();
@@ -44,10 +50,32 @@ public class Client {
 
 // Create local view:
         GigaSpace localView = new GigaSpaceConfigurer(localViewConfigurer).gigaSpace();
+        long batchStartTime = System.currentTimeMillis();
+        Data data;
+        int amountOfObejctsToReadFromSpace = 1000;
 
-        Data data = localView.read(new SQLQuery<Data>(Data.class, "processed = false and type = 4"));
-        System.out.println("Local view read: " + data.toString());
+        for (int i=0;i<amountOfObejctsToReadFromSpace;i++)
+        {
+            data = localView.read(new SQLQuery<Data>(Data.class, "processed = false and type = 4"));
+        }
+//        Data data = localView.read(new SQLQuery<Data>(Data.class, "processed = false and type = 4"));
+        System.out.println("Local view read speed for " + amountOfObejctsToReadFromSpace + " objects is "
+                + (System.currentTimeMillis() - batchStartTime) + " millis");
 
+
+
+//Create remote connection to test read speed without local view
+        System.out.println("Connecting to data grid");
+        SpaceProxyConfigurer configurer = new SpaceProxyConfigurer("myGrid");
+        final GigaSpace gigaSpace = new GigaSpaceConfigurer(configurer).create();
+        System.out.println("Write (store) a few of account entries in the data grid:");
+
+        batchStartTime = System.currentTimeMillis();
+        for (int i = 0; i < amountOfObejctsToReadFromSpace; i++) {
+            gigaSpace.read(new SQLQuery<Data>(Data.class, "processed = false and type = 4"));
+        }
+        System.out.println("Regular read speed for " + amountOfObejctsToReadFromSpace + " objects is "
+                + (System.currentTimeMillis() - batchStartTime) + " millis");
 
     }
 }
