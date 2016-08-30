@@ -41,7 +41,13 @@ public class SwitchThree {
         // Set payment status
         data.setProcessed(true);
         data.setStatus(EStatus.Four);
-        data.finishWorkFlow();
+//        try {
+////            data.finishWorkFlow();
+//            data.setBatchTotalTime(System.currentTimeMillis()-data.getBatchStartTime());
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            log.info(" ------ step 3 error: " + e.getMessage());
+//        }
         log.info(" ------ Finished step 3 : " + data);
 
         return data;

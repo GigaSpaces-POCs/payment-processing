@@ -25,19 +25,15 @@ public class Data {
 
     private EStatus status;
 
-    private long batchStartTime;
-
-    private long batchTotalTime;
-
-    private Boolean lockBatchTotalTime;
-
-
+//    private Long batchStartTime;
+//
+//    private Long batchTotalTime;
 
     /**
      * Constructs a new Data object.
      */
     public Data() {
-
+//        super();
     }
 
     /**
@@ -48,9 +44,8 @@ public class Data {
         this.rawData = rawData;
         this.processed = false;
         this.status = EStatus.One;
-        this.batchStartTime = System.currentTimeMillis();
-        this.batchTotalTime = 0;
-        this.lockBatchTotalTime=false;
+//        this.batchStartTime = System.currentTimeMillis();
+//        this.batchTotalTime = 0l;
     }
 
     /**
@@ -137,23 +132,21 @@ public class Data {
         this.status = inStatus;
     }
 
-//    public long getBatchStartTime(){
-//        return batchStartTime;
+//    public Long getBatchStartTime() {
+//        return this.batchStartTime;
 //    }
-
-    public Boolean finishWorkFlow(){
-        Boolean returnVal = false;
-        if (!this.lockBatchTotalTime) {
-            this.batchTotalTime = System.currentTimeMillis() - batchStartTime;
-            this.lockBatchTotalTime = true;
-            returnVal = true;
-        }
-        return returnVal;
-    }
-
-    public long getBatchTotalTime(){
-        return batchTotalTime;
-    }
+//
+//    public void setBatchStartTime(Long batchStartTime) {
+//        this.batchStartTime = batchStartTime;
+//    }
+//
+//    public void setBatchTotalTime(Long batchTotalTime) {
+//        this.batchTotalTime = batchTotalTime;
+//    }
+//
+//    public Long getBatchTotalTime(){
+//        return this.batchTotalTime;
+//    }
 
     public String toString() {
         return "id[" + id + "] type[" + type + "] rawData[" + rawData + "] data[" + data + "] processed[" + processed + "]";
