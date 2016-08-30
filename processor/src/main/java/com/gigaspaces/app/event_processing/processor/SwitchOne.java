@@ -3,6 +3,7 @@ package com.gigaspaces.app.event_processing.processor;
 import javax.annotation.Resource;
 
 import com.gigaspaces.app.event_processing.common.Data;
+import com.gigaspaces.app.event_processing.common.EStatus;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openspaces.core.GigaSpace;
@@ -31,8 +32,8 @@ public class SwitchOne {
         System.out.println("Starting DataRequestEventContainer EventTemplate for Payment with false status.");
 
 
-        SQLQuery<Data> paymentTemplate = new SQLQuery<Data>(Data.class, "processed = ?" );
-        paymentTemplate.setParameter(1, "false");
+        SQLQuery<Data> paymentTemplate = new SQLQuery<Data>(Data.class, "status = ?" );
+        paymentTemplate.setParameter(1, EStatus.One);
 
         return paymentTemplate;
     }
@@ -43,6 +44,9 @@ public class SwitchOne {
         System.out.println("Starting AuditDataEventContainer SpaceDataEvent.");
         // Set payment status
         data.setProcessed(true);
+        data.setStatus(EStatus.Two);
+        log.info(" ------ Finished step 1 : " + data);
+
         return data;
     }
 

@@ -1,6 +1,7 @@
 package com.gigaspaces.app.event_processing.processor;
 
 import com.gigaspaces.app.event_processing.common.Data;
+import com.gigaspaces.app.event_processing.common.EStatus;
 import org.openspaces.events.adapter.SpaceDataEvent;
 import java.util.logging.Logger;
 
@@ -35,7 +36,8 @@ public class Processor {
 //        } catch (InterruptedException e) {
 //            // do nothing
 //        }
-//        data.setProcessed(true);
+        data.setProcessed(true);
+        data.setStatus(EStatus.One);
         data.setData("PROCESSED : " + data.getRawData());
         log.info(" ------ PROCESSED : " + data);
         return data;

@@ -25,6 +25,13 @@ public class Data {
 
     private EStatus status;
 
+    private long batchStartTime;
+
+    private long batchTotalTime;
+
+    private Boolean lockBatchTotalTime;
+
+
 
     /**
      * Constructs a new Data object.
@@ -41,6 +48,9 @@ public class Data {
         this.rawData = rawData;
         this.processed = false;
         this.status = EStatus.One;
+        this.batchStartTime = System.currentTimeMillis();
+        this.batchTotalTime = 0;
+        this.lockBatchTotalTime=false;
     }
 
     /**
@@ -125,6 +135,24 @@ public class Data {
 
     public void setStatus(EStatus inStatus) {
         this.status = inStatus;
+    }
+
+//    public long getBatchStartTime(){
+//        return batchStartTime;
+//    }
+
+    public Boolean finishWorkFlow(){
+        Boolean returnVal = false;
+        if (!this.lockBatchTotalTime) {
+            this.batchTotalTime = System.currentTimeMillis() - batchStartTime;
+            this.lockBatchTotalTime = true;
+            returnVal = true;
+        }
+        return returnVal;
+    }
+
+    public long getBatchTotalTime(){
+        return batchTotalTime;
     }
 
     public String toString() {

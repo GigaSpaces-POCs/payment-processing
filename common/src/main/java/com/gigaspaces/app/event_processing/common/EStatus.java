@@ -6,6 +6,7 @@ package com.gigaspaces.app.event_processing.common;
 public enum EStatus {
     One,
     Two,
-    Three
+    Three,
+    Four
 
 }

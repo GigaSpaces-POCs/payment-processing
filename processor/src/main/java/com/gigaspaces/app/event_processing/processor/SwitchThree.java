@@ -1,6 +1,7 @@
 package com.gigaspaces.app.event_processing.processor;
 
 import com.gigaspaces.app.event_processing.common.Data;
+import com.gigaspaces.app.event_processing.common.EStatus;
 import com.j_spaces.core.client.SQLQuery;
 import org.openspaces.core.GigaSpace;
 import org.openspaces.events.EventDriven;
@@ -27,8 +28,8 @@ public class SwitchThree {
         System.out.println("Starting DataRequestEventContainer EventTemplate for Payment with false status.");
 
 
-        SQLQuery<Data> paymentTemplate = new SQLQuery<Data>(Data.class, "data = ?" );
-        paymentTemplate.setParameter(1, "test");
+        SQLQuery<Data> paymentTemplate = new SQLQuery<Data>(Data.class, "status = ?" );
+        paymentTemplate.setParameter(1, EStatus.Three);
 
         return paymentTemplate;
     }
@@ -39,6 +40,10 @@ public class SwitchThree {
         System.out.println("Starting AuditDataEventContainer SpaceDataEvent.");
         // Set payment status
         data.setProcessed(true);
+        data.setStatus(EStatus.Four);
+        data.finishWorkFlow();
+        log.info(" ------ Finished step 3 : " + data);
+
         return data;
     }
 

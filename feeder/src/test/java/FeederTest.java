@@ -14,7 +14,7 @@ public class FeederTest {
     @Test
     public void verifyFeeder() {
         int objectsPerSecond = 10;
-        int totalObjectsToWriteTogrid = 50;
+        int totalObjectsToWriteTogrid = 20;
         Feeder feedTester = new Feeder();
         feedTester.MainFeed(objectsPerSecond,totalObjectsToWriteTogrid);
     }
