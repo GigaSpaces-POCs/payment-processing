@@ -16,12 +16,12 @@ import java.util.logging.Logger;
  * Created by tal on 8/25/16.
  */
 @EventDriven
-@Polling(gigaSpace="gigaSpace")
-public class SwitchThree {
-    Logger log = Logger.getLogger(this.getClass().getName());
+@Polling
+public class SwitchThree extends SwitchBase{
+//    Logger log = Logger.getLogger(this.getClass().getName());
 
-    @Resource
-    private GigaSpace gigaSpace;
+//    @Resource
+//    private GigaSpace gigaSpace;
 
     @EventTemplate
     public SQLQuery<Data> findNewData() {
