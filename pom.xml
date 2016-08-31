@@ -29,7 +29,7 @@
     <modules>
         <module>common</module>
         <module>processor</module>
-        <module>feeder</module>
+        <module>POC</module>
         <module>local-view</module>
     </modules>
 

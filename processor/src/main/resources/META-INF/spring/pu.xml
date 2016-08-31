@@ -33,7 +33,7 @@
     <!--
         Enables the usage of @GigaSpaceContext annotation based injection.
     -->
-    <os-core:giga-space-context/>
+    <os-core:giga-space-late-context/>
  
     <!--
         A bean representing a space (an IJSpace implementation).
@@ -42,6 +42,9 @@
         the processing unit or within the SLA bean.
     -->
     <os-core:space id="space" url="/./myGrid" />
+
+    <os-core:space id="spaceForLocalView" url="jini://*/*/myGrid" />
+
  
     <!--
         Defines a distributed transaction manager.
@@ -77,4 +80,23 @@
             <!--</os-events:annotation-adapter>-->
         <!--</os-events:listener>-->
     <!--</os-events:polling-container>-->
+
+    <!--<bean id="viewSpace" class="org.openspaces.core.space.cache.LocalViewSpaceFactoryBean">-->
+        <!--<property name="space" ref="space" />-->
+        <!--<property name="localViews">-->
+            <!--<list>-->
+                <!--<bean class="com.j_spaces.core.client.view.View">-->
+                    <!--<constructor-arg index="0" value="com.gigaspaces.app.event_processing.common.Data" />-->
+                    <!--<constructor-arg index="1" value="status != EStatus.Four" />-->
+                <!--</bean>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <os-core:local-view id="localViewSpace" space="spaceForLocalView">
+        <os-core:view-query class="com.gigaspaces.app.event_processing.common.Data" where="status != 'Four'"/>
+    </os-core:local-view>
+
+    <os-core:giga-space id="localView" space="localViewSpace"/>
+
 </beans>

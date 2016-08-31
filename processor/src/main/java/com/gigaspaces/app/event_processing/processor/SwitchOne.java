@@ -7,6 +7,8 @@ import com.gigaspaces.app.event_processing.common.EStatus;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openspaces.core.GigaSpace;
+import org.openspaces.core.context.GigaSpaceContext;
+import org.openspaces.core.context.GigaSpaceLateContext;
 import org.openspaces.events.EventDriven;
 import org.openspaces.events.EventTemplate;
 import org.openspaces.events.adapter.SpaceDataEvent;
@@ -20,9 +22,13 @@ import java.util.logging.Logger;
  * Created by tal on 8/25/16.
  */
 @EventDriven
-@Polling
+@Polling(gigaSpace="localView")
 public class SwitchOne extends SwitchBase{
 //    Logger log = Logger.getLogger(this.getClass().getName());
+
+
+
+
 
     @EventTemplate
     public SQLQuery<Data> findNewData() {

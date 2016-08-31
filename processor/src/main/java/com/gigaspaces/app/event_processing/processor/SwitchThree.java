@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * Created by tal on 8/25/16.
  */
 @EventDriven
-@Polling
+@Polling(gigaSpace="localView")
 public class SwitchThree extends SwitchBase{
 //    Logger log = Logger.getLogger(this.getClass().getName());
 

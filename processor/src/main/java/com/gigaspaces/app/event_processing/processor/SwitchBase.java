@@ -5,6 +5,7 @@ import com.gigaspaces.app.event_processing.common.EStatus;
 import com.j_spaces.core.client.SQLQuery;
 import org.openspaces.core.GigaSpace;
 import org.openspaces.core.context.GigaSpaceContext;
+import org.openspaces.core.context.GigaSpaceLateContext;
 import org.openspaces.events.EventDriven;
 import org.openspaces.events.EventTemplate;
 import org.openspaces.events.adapter.SpaceDataEvent;
@@ -22,7 +23,7 @@ public class SwitchBase {
     Logger log = Logger.getLogger(this.getClass().getName());
 
     @Resource
-    @GigaSpaceContext(name="gigaSpace")
+//    @GigaSpaceLateContext(name="gigaSpace")
     public GigaSpace gigaSpace;
 
 
